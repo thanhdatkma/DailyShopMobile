@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import type { IScrollContextInterface } from "../../interfaces/scroll-context.interface";
 import type { IChildProps } from "../../interfaces/child-props.interface";
 const withinLimits = (val: number, min: number, max: number): number => val;
 
@@ -7,7 +6,7 @@ export const ScrollContext = React.createContext({
   opacity: 0,
   maxOffset: 0,
   offset: 0,
-  titleShowing: false,
+  titleShowing: 0,
   updateOffset: (val: number) => { }
 });
 

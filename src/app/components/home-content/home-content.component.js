@@ -31,7 +31,7 @@ type Props = {
   navigation: any,
 }
 
-export default function PageContentComponent(props: Props) {
+export default function HomeContentComponent(props: Props) {
   let defaultStyle = {
     container: {
       flex: 1,
@@ -82,7 +82,7 @@ export default function PageContentComponent(props: Props) {
   });
 
   function getProduct() {
-    Axios.get(`http://localhost:3000/products?_start=${filter.start}&_limit=${filter.limit}'}`)
+    Axios.get(`http://localhost:3000/products?_start=${filter.start}&_limit=${filter.limit}`)
       .subscribe((res: any) => {
         // let tmpList = productList.concat(res.data);
         setProductList( [...productList, ...res.data]);
@@ -122,13 +122,14 @@ export default function PageContentComponent(props: Props) {
       <FlatList
         ref={ref => ref}
         data={productList}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, index }) => (
-          <TouchableWithoutFeedback onPress={() => props.navigation.navigate('Detail')}>
+          <TouchableWithoutFeedback onPress={() => props.navigation.navigate('Detail', {item: item})}>
             <View style={{
               flex: 1,
               flexDirection: "column"
             }}>
-              <ProductComponent key={index.toString()} total={productList.length} index={index} productItem={item} />
+              <ProductComponent key={item.id.toString()} total={productList.length} index={index} productItem={item} />
             </View>
           </TouchableWithoutFeedback>
 

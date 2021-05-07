@@ -1,19 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Badge } from "react-native-elements";
 import { StyleSheet } from "react-native";
 
-type Props = {}
+type Props = {
+  customStyle?: {}
+}
 
-export default function BadgeComponent({}: Props) {
-  const [styles, setStyles] = useState(StyleSheet.create({
+export default function BadgeComponent(props: Props) {
+  let defaultStyle = {
     badgeIcon: {
       position: 'absolute',
-      top: -4,
-      right: -4,
+      top: -3,
+      right: -3,
       width: 36
-
     }
-  }));
+  }
+  if (props.customStyle) {
+    defaultStyle.badgeIcon = Object.assign(defaultStyle.badgeIcon, props.customStyle);
+  }
+  const [styles, setStyles] = useState(StyleSheet.create(defaultStyle));
   return (
     <Badge
       status="error"

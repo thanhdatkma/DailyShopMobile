@@ -4,7 +4,7 @@ import { Icon } from "react-native-elements";
 
 type Props = {}
 
-export default function SearchComponent({}: Props) {
+export default function SearchIconComponent({}: Props) {
   const [styles, setStyles] = useState(StyleSheet.create({
     searchIcon: {
       width: 50,

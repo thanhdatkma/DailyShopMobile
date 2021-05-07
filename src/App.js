@@ -63,7 +63,12 @@ const App = () => {
             options={{
               headerShown: false,
             }} />
-          <Stack.Screen name="Detail" component={DetailPage} />
+          <Stack.Screen
+            name="Detail"
+            component={DetailPage}
+            options={{
+              headerShown: false,
+            }}/>
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

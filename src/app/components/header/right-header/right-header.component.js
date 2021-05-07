@@ -1,28 +1,25 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import CartComponent from "../cart/cart.component";
-import SearchComponent from "../search/search.component";
+import CartButtonComponent from "../../buttons/cart-button/cart-button.component";
+import SearchIconComponent from "../../buttons/search-icon/search-icon.component";
 import BadgeComponent from "../badge/badge.component";
+import { RightHeaderStyle } from "./right-header.style";
 
 type Props = {}
 
 export default function RightHeaderComponent({}: Props) {
-  const [styles, setStyles] = useState(StyleSheet.create({
-    rightIcon: {
-      width: 50,
-      height: 30,
-      // backgroundColor: "powderblue"
-    }
-  }));
+  const [styles, setStyles] = useState(RightHeaderStyle);
   return (
-    <View style={{ flex: 1, flexDirection: "row" }}>
+    <View style={styles.wrap}>
       <View style={styles.rightIcon}>
-        <SearchComponent />
+        <SearchIconComponent />
       </View>
       <View style={styles.rightIcon}>
-        <CartComponent />
+        <CartButtonComponent />
         <BadgeComponent />
       </View>
     </View>
   );
 }
+
+
