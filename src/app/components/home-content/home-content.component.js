@@ -111,7 +111,6 @@ export default function HomeContentComponent(props: Props) {
             <TextLabelComponent theme={theme} h4>New Products</TextLabelComponent>
           </>
         }
-        scrollEnabled={true}
         refreshControl={
           <RefreshControl
             title={props.refreshTitle ? props.refreshTitle : "Loading..."}

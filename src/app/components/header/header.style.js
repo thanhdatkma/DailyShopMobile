@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components/native";
 import { View } from "react-native";
 import { Header } from "react-native-elements";
+
 export const BackgroundHeader = styled(View).attrs({
   style: {
     shadowColor: "#000000",
@@ -11,7 +12,7 @@ export const BackgroundHeader = styled(View).attrs({
       height: 1,
       width: 1,
     },
-  }
+  },
 })`
   background-color: ${(props) => props.theme.colors.bg.primary};
   width: 100%;
@@ -27,31 +28,32 @@ export const BackgroundHeader = styled(View).attrs({
 `;
 
 export const AppHeader = styled(Header).attrs({
-  containerStyle: {
-      backgroundColor: "transparent",
-      justifyContent: "space-around",
-      height: 90,
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      zIndex: 2,
-      elevation: 0,
-      shadowOpacity: 0,
-      borderBottomWidth: 0,
-      paddingHorizontal: 5,
-      paddingVertical: 0
-  },
+  // containerStyle: {
+  //   backgroundColor: "transparent",
+  //   justifyContent: "space-around",
+  //   height: 90,
+  //   position: "absolute",
+  //   top: 0,
+  //   left: 0,
+  //   zIndex: 2,
+  //   elevation: 0,
+  //   shadowOpacity: 0,
+  //   borderBottomWidth: 0,
+  //   paddingHorizontal: 5,
+  //   paddingVertical: 0,
+  // },
   centerContainerStyle: {
-    flex: 0
+    flex: 0,
   },
   leftContainerStyle: {
-    flex: 2
+    flex: 2,
   },
   rightContainerStyle: {
     flex: 2,
     flexDirection: "row",
     justifyContent: "flex-end",
     position: "relative",
-    paddingRight: 16
-  }
-})``;
+    paddingRight: 16,
+  },
+})`
+`;
