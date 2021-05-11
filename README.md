@@ -5,3 +5,5 @@
 - npm: 7.6.0
 - Yarn: 1.22.10
 - Watchman: 4.9.0
+- note:
+    + npm install axios rxjs axios-observable

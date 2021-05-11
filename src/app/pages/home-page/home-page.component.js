@@ -1,22 +1,27 @@
 import React from "react";
-import GlobalStyles from "../../../styles/global.style";
-import { View } from "react-native";
+import { WrapContainer } from "../../../styles/global.style";
 import HeaderComponent from "../../components/header/header.component";
-import PageContentComponent from "../../components/page-content/page-content.component";
-import ScrollContextProvider, { ScrollContext } from "../../providers/scroll-context/scroll-context-provider";
+import HomeContentComponent from "../../components/home-content/home-content.component";
+import ScrollContextProvider from "../../providers/scroll-context/scroll-context-provider";
+import { theme } from "../../../styles/theme";
+import { ThemeProvider } from "styled-components/native";
+import LeftHeaderComponent from "../../components/header/left-header/left-header.component";
+
 function HomePage({navigation}) {
   return(
-    <ScrollContextProvider>
-      <View style={GlobalStyles.wrapContainer}>
-        <HeaderComponent />
-        <PageContentComponent
-          scrollEnable={true}
-          navigation={navigation}
-          refreshMode={true}
-          scrollToTopIcon={{ enableMode: false }}>
-        </PageContentComponent>
-      </View>
-    </ScrollContextProvider>
+    <ThemeProvider theme={theme}>
+      <ScrollContextProvider>
+        <WrapContainer theme={theme}>
+          <HeaderComponent />
+          <HomeContentComponent
+            scrollEnable={true}
+            navigation={navigation}
+            refreshMode={true}
+            scrollToTopIcon={{ enableMode: false }}>
+          </HomeContentComponent>
+        </WrapContainer>
+      </ScrollContextProvider>
+    </ThemeProvider>
   );
 }
 export default HomePage;
