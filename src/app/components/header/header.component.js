@@ -25,10 +25,36 @@ type Props = {
 
 function HeaderComponent(props: Props) {
   const { opacity } = useScroller();
+  let defaultHeaderStyle = {
+    backgroundColor: "transparent",
+    justifyContent: "space-around",
+    height: 90,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    zIndex: 2,
+    elevation: 0,
+    shadowOpacity: 0,
+    borderBottomWidth: 0,
+    paddingHorizontal: 5,
+    paddingVertical: 0,
+  };
+  let [headerStyle, setDefaultHeaderStyle] = useState(defaultHeaderStyle);
+  function checkHideHeader(opacity: number) {
+    if (opacity < 0) {
+      defaultHeaderStyle = Object.assign(defaultHeaderStyle, {opacity: 0});
+    } else {
+      defaultHeaderStyle = Object.assign(defaultHeaderStyle, {opacity: 1});
+    }
+    setDefaultHeaderStyle(defaultHeaderStyle);
+  }
+  useEffect(() => {
+    checkHideHeader(opacity);
+  }, [opacity]);
   return (
     <>
       {props.children ? <>{ props.children }</> :
-        <AppHeader>
+        <AppHeader containerStyle={headerStyle}>
           <LeftHeaderComponent logo={require("../../../assets/images/logo.png")} />
           <CenterHeaderComponent />
           <RightHeaderComponent>
