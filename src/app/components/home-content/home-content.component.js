@@ -1,18 +1,21 @@
 import React, { JSXElementConstructor, useCallback, useEffect, useState } from "react";
 import {
   FlatList,
-  RefreshControl,
-  StatusBar,Text, TextProps,
+  RefreshControl, ScrollView, TextProps,
   TouchableWithoutFeedback,
-  View
 } from "react-native";
-import { Icon } from "react-native-elements";
+import { Text } from "react-native-elements";
 import Axios from "axios-observable";
 import { useScroller } from "../../providers/scroll-context/scroll-context-provider";
 import ProductComponent from "../product/product.component";
 import NoResultComponent from "../no-result/no-result.component";
 import SlidesComponent from "../slides/slides.component";
-import { CommonHelper } from "../../helpers/common.helper";
+import { RouteName } from "../../infastructure/route/route-name";
+import { FlexCol, PaddingView } from "../../../styles/global.style";
+import ScrollTopComponent from "../buttons/scroll-top/scroll-top.component";
+import { TextLabelComponent } from "../common/common.component";
+import { theme } from "../../../styles/theme";
+import { ProductList } from "./home-content.style";
 
 type Props = {
   children?: React.ReactElement<{}> | TextProps | string | JSXElementConstructor<any>;
@@ -32,45 +35,7 @@ type Props = {
 }
 
 export default function HomeContentComponent(props: Props) {
-  let defaultStyle = {
-    container: {
-      flex: 1,
-      paddingTop: StatusBar.currentHeight
-    },
-    scrollView: {
-      backgroundColor: "white",
-      // marginHorizontal: 20,
-      marginBottom: 20,
-      height: "100%",
-      padding: 0
-    },
-    text: {
-      fontSize: 42
-    }
-  };
-  defaultStyle = Object.assign(defaultStyle, props.customStyle);
-  const [styles, setStyles] = useState(new CommonHelper().generateStyleHelper(defaultStyle));
-  // @ts-ignore
-  const scrollToTopTemplate = <View
-    style={{
-      backgroundColor: "pink",
-      width: 50,
-      height: 50,
-      borderStyle: "solid",
-      borderRadius: 50,
-      borderWidth: 2,
-      borderColor: "gray",
-      position: "absolute",
-      bottom: 20,
-      right: 20,
-      zIndex: 5
-    }}>
-    <Icon type={"ionicon"} name={"caret-up-outline"} size={35} style={{
-      padding: 3
-    }} />
-  </View>;
   const { updateOffset } = useScroller();
-  // const [refreshing, setRefreshing] = useState(false);
   let page = 0;
   let limit = 10;
   const [productList, setProductList] = useState([]);
@@ -84,12 +49,12 @@ export default function HomeContentComponent(props: Props) {
   function getProduct() {
     Axios.get(`http://localhost:3000/products?_start=${filter.start}&_limit=${filter.limit}`)
       .subscribe((res: any) => {
-        // let tmpList = productList.concat(res.data);
         setProductList( [...productList, ...res.data]);
         if (refreshing) {
           setRefreshing(false);
         }
       }, error => {
+        // Show toast message from server
         console.log(error);
       });
   }
@@ -118,27 +83,20 @@ export default function HomeContentComponent(props: Props) {
     return getProduct();
   }, [filter]);
   return (
-    <View>
-      <FlatList
+    <>
+      <ProductList
         ref={ref => ref}
         data={productList}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, index }) => (
-          <TouchableWithoutFeedback onPress={() => props.navigation.navigate('Detail', {item: item})}>
-            <View style={{
-              flex: 1,
-              flexDirection: "column"
-            }}>
+          <TouchableWithoutFeedback onPress={() => props.navigation.navigate(RouteName.Detail, {item: item})}>
+            <FlexCol>
               <ProductComponent key={item.id.toString()} total={productList.length} index={index} productItem={item} />
-            </View>
+            </FlexCol>
           </TouchableWithoutFeedback>
 
         )}
         numColumns={2}
-        style={{
-          flex: 1,
-          marginBottom: 20
-        }}
         ListEmptyComponent={<NoResultComponent />}
         extraData={productList}
         onScroll={({ nativeEvent }) => {
@@ -146,18 +104,14 @@ export default function HomeContentComponent(props: Props) {
         }}
         ListHeaderComponent={
           <>
-            <SlidesComponent navigation={props.navigation} autoplay={true} />
-            <Text
-              style={{
-                paddingVertical: 10,
-                paddingHorizontal: 14,
-                fontSize: 16,
-                fontWeight: 'bold',
-                // marginTop: 10,
-                backgroundColor: '#ffffff'
-              }}>New Products</Text>
+            <SlidesComponent
+              hidePaginationBox={true}
+              navigation={props.navigation}
+              autoplay={true} />
+            <TextLabelComponent theme={theme} h4>New Products</TextLabelComponent>
           </>
         }
+        scrollEnabled={true}
         refreshControl={
           <RefreshControl
             title={props.refreshTitle ? props.refreshTitle : "Loading..."}
@@ -171,11 +125,11 @@ export default function HomeContentComponent(props: Props) {
         automaticallyAdjustContentInsets={false}
         removeClippedSubviews={true}
       />
-      {props.scrollToTopIcon?.enableMode
-        ? (props.scrollToTopIcon?.templateContent
-          ? props.scrollToTopIcon?.templateContent
-          : scrollToTopTemplate)
-        : <Text></Text>}
-    </View>
+      {/*{props.scrollToTopIcon?.enableMode*/}
+      {/*  ? (props.scrollToTopIcon?.templateContent*/}
+      {/*    ? props.scrollToTopIcon?.templateContent*/}
+      {/*    : <ScrollTopComponent />)*/}
+      {/*  : <Text></Text>}*/}
+    </>
   );
 }

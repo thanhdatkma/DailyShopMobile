@@ -1,19 +1,17 @@
 import React, { useState } from "react";
-import { Card, Icon, Image, Rating } from "react-native-elements";
 import { ActivityIndicator, Text, View } from "react-native";
 import { ProductModel } from "./models/product.model";
-import { CommonHelper } from "../../helpers/common.helper";
-import { CommonConstants } from "../../constants/common.constants";
-import styled from "styled-components/native";
 import {
-  DiscountPercent,
   ProductImage,
   ProductImageContainer,
   ProductItemWrap, ProductPriceContainer,
   ProductRatingContainer,
-  ProductTitle, RatingComponent, SalePrice, TextSection, TotalRatingCount,
+  ProductTitle, RatingComponent, TextSection, TotalRatingCount,
 } from "./product.style";
 import FavoriteButton from "../buttons/favorite-button/favorite-button";
+import { theme } from "../../../styles/theme";
+import { Absolute, FlexRow, PaddingText, PaddingView, Relative } from "../../../styles/global.style";
+import CurrencyComponent, { ColorTag, PercentageComponent } from "../common/common.component";
 type Props = {
   index: number;
   total: number;
@@ -28,7 +26,6 @@ export default function ProductComponent(props: Props) {
     const { width, height } = event.nativeEvent.layout;
     return setImageSize({ width, height });
   };
-  let [loading, setLoading] = useState(true);
   return (
     <ProductItemWrap
     onLayout={onPageLayout}
@@ -43,25 +40,35 @@ export default function ProductComponent(props: Props) {
           PlaceholderContent={<ActivityIndicator size="small" color="#0000ff" />}
         />
       </ProductImageContainer>
-      <ProductTitle>{props.productItem.productName}</ProductTitle>
-      <ProductRatingContainer>
-        <RatingComponent
-          type="star"
-          imageSize={13}
-          readonly={true}
-          startingValue={Number(props.productItem.averageRating || 0)}
-        />
-        <TotalRatingCount>({props.productItem.totalRatingCount})</TotalRatingCount>
-      </ProductRatingContainer>
-      <ProductPriceContainer>
-        <SalePrice>{props.productItem.salePrice}$</SalePrice>
-        <DiscountPercent>
-          <TextSection>
-            -{Number(((props.productItem.originalPrice - props.productItem.salePrice) / props.productItem.originalPrice) * 100)
-            .toFixed(0)}%</TextSection>
-        </DiscountPercent>
-      </ProductPriceContainer>
-      <FavoriteButton />
+      <PaddingView vertical={10} horizontal={10}>
+        <PaddingView horizontal={5}>
+          <ProductTitle numberOfLines={2} horizontal={5}>{props.productItem.productName}</ProductTitle>
+        </PaddingView>
+        <ProductRatingContainer>
+          <RatingComponent
+            type="star"
+            imageSize={13}
+            readonly={true}
+            startingValue={Number(props.productItem.averageRating || 0)}
+          />
+          <TotalRatingCount>({props.productItem.totalRatingCount})</TotalRatingCount>
+        </ProductRatingContainer>
+        <Relative>
+          <FlexRow>
+            <CurrencyComponent
+              size={15}
+              value={props.productItem.salePrice} />
+            <ColorTag theme={theme}>
+              <PercentageComponent
+                salePrice={props.productItem.salePrice}
+                originalPrice={props.productItem.originalPrice} />
+            </ColorTag>
+            {/*<FavoriteWrap>*/}
+            {/*  <FavoriteButton size={20} background={theme.colors.bg.transparent}/>*/}
+            {/*</FavoriteWrap>*/}
+          </FlexRow>
+        </Relative>
+      </PaddingView>
     </ProductItemWrap>
   );
 }

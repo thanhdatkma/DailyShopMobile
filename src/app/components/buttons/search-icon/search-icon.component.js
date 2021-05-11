@@ -1,23 +1,21 @@
-import React, { useState } from "react";
-import { StyleSheet } from "react-native";
-import { Icon } from "react-native-elements";
+import React, { useContext, useState } from "react";
+import { SearchIcon } from "./search-icon.style";
+import { theme } from "../../../../styles/theme";
+import { iconMode } from "../../../../styles/global.style";
 
-type Props = {}
+type Props = {
+  color?: string,
+  size?: number,
+  background: string
+}
 
-export default function SearchIconComponent({}: Props) {
-  const [styles, setStyles] = useState(StyleSheet.create({
-    searchIcon: {
-      width: 50,
-      height: 30,
-      // backgroundColor: "powderblue"
-    }
-  }));
-  // @ts-ignore
+export default function SearchIconComponent(props: Props) {
   return (
-    <Icon
-      type={"ionicon"}
-      name={"search-outline"}
-      style={styles.searchIcon}
+    <SearchIcon
+      type={theme.icons.type}
+      name={iconMode.outline.search}
+      color={props.color || theme.colors.icon.black}
+      background={props.background}
       size={25}/>
   );
 }

@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components/native";
-
-export const FavoriteIconWrap = styled.View`
-  z-index: 3;
-  position: absolute;
-  top: 10px;
-  right: 10px;
+import { Icon } from "react-native-elements";
+export const FavoriteIcon = styled(Icon)`
+  border-radius: 50px;
+  width: 30px;
+  height: 30px;
+  padding: 3px;
+  margin: 0 5px;
+  background-color: ${(props) => props.background};
 `;

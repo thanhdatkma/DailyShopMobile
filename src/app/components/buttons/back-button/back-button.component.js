@@ -11,7 +11,7 @@ function BackButtonComponent({navigation}) {
       padding: 3,
       backgroundColor: '#66666773',
       marginHorizontal: 5,
-      color: 'lightgrey'
+      color: 'lightgrey',
     }
   }));
   return(

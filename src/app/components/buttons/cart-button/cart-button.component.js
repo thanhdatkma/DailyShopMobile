@@ -1,32 +1,29 @@
 import React, { useState } from "react";
-import { Icon } from "react-native-elements";
+import { Badge, Icon } from "react-native-elements";
 import { StyleSheet } from "react-native";
+import { iconMode, Relative } from "../../../../styles/global.style";
+import { theme } from "../../../../styles/theme";
+import { BadgeIcon, CartIcon } from "./cart-button.style";
 
 type Props = {
-  customStyle?: {}
+  color?: string,
+  size?: number,
+  background: string
 }
 
 export default function CartButtonComponent(props: Props) {
-  let defaultStyle = {
-    cartIcon: {
-      borderRadius: 50,
-      width: 30,
-      height: 30,
-      padding: 3,
-      backgroundColor: "transparent",
-      color: 'black'
-    }
-  }
-  if (props.customStyle) {
-    defaultStyle.badgeIcon = Object.assign(defaultStyle.cartIcon, props.customStyle);
-  }
-  const [styles, setStyles] = useState(StyleSheet.create(defaultStyle));
   return (
-    <Icon
-      type={"ionicon"}
-      name={"cart-outline"}
-      style={styles.cartIcon}
-      color={styles.cartIcon.color}
-      size={25} />
+    <Relative>
+      <CartIcon
+        type={theme.icons.type}
+        name={iconMode.outline.cart}
+        color={props.color || theme.colors.icon.black}
+        background={props.background}
+        size={props.size || 25} />
+      <BadgeIcon
+        status="error"
+        value="99+"
+      />
+    </Relative>
   );
 }

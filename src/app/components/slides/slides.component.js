@@ -1,6 +1,10 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { Text } from "react-native-elements";
 import { SliderBox } from 'react-native-image-slider-box';
+import { Relative } from "../../../styles/global.style";
+import { SliderCount, SliderCountWrap } from "./slides.style";
+import { theme } from "../../../styles/theme";
 type Props = {
   imageSource?: string[],
   customStyle?: any,
@@ -21,36 +25,22 @@ export default function SlidesComponent(props: Props) {
     "https://source.unsplash.com/1024x768/?tree"
   ]
   return (
-    <View style={{
-      position:'relative'
-    }}>
+    <Relative>
       <SliderBox
         dotColor="#FFEE58"
         paginationBoxStyle={props.hidePaginationBox ? {display: 'none'} : {display: 'flex'}}
         inactiveDotColor="#90A4AE"
-        autoplay={props.circleLoop}
+        autoplay={props.autoplay}
         autoplayInterval={props.autoplayInterval}
         circleLoop={props.circleLoop ? props.circleLoop : true}
         ImageComponentStyle={props.customStyle}
         onCurrentImagePressed={(index: number) => props.navigation.navigate('Detail')}
         currentImageEmitter={(index: number) => setCurrentIndex(index + 1)}
         images={props.imageSource ? props.imageSource : defaultSlide} />
-      <View style={{
-        position: 'absolute',
-        zIndex: 2,
-        elevation: 0,
-        bottom: 10,
-        right: 10,
-        paddingHorizontal: 10,
-        paddingVertical: 3,
-        borderRadius: 16,
-        backgroundColor: 'rgba(124, 124, 124, 0.8)'
-      }}>
-        <Text style={{
-          color: '#ffff'
-        }}>{currentIndex}/{props.imageSource ? props.imageSource.length : defaultSlide.length}</Text>
-      </View>
+      <SliderCountWrap>
+        <SliderCount>{currentIndex}/{props.imageSource ? props.imageSource.length : defaultSlide.length}</SliderCount>
+      </SliderCountWrap>
       {props.children}
-    </View>
+    </Relative>
   );
 }

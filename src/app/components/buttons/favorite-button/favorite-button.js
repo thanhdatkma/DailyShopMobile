@@ -1,19 +1,22 @@
 import React from "react";
-import { FavoriteIconWrap } from "./favorite-button.style";
+import { FavoriteIcon, FavoriteIconWrap } from "./favorite-button.style";
 import {Icon } from "react-native-elements";
-
-function FavoriteButton() {
+import { theme } from "../../../../styles/theme";
+import { iconMode } from "../../../../styles/global.style";
+import { SocialIcon } from "../social-share/social-share.style";
+type Props = {
+  color?: string,
+  size?: number,
+  background: string
+}
+function FavoriteButton(props: Props) {
   return(
-    <FavoriteIconWrap>
-      <Icon
-        type={"ionicon"}
-        name={"heart"}
-        style={{
-          fontSize: 30,
-        }}
-        color={"red"}
-        size={25} />
-    </FavoriteIconWrap>
+    <FavoriteIcon
+      type={theme.icons.type}
+      name={iconMode.outline.heart}
+      background={props.background}
+      color={props.color || theme.colors.icon.black}
+      size={props.size || 25} />
   );
 }
 export default FavoriteButton;
